@@ -15,7 +15,7 @@ const Add_Doctor = (props) => {
   let history = useHistory();
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    // e.preventDefault();
 
     const data = addDoctor(
       localStorage.getItem("id"),
