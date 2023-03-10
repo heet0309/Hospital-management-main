@@ -19,6 +19,14 @@ import Update_Bed from "./components/Hospital/Update_Bed";
 import Add_Doctor from "./components/Hospital/Add_Doctor";
 import Update_Doctor from "./components/Hospital/Update_Doctor";
 import HospitalForgetPassword from "./components/Hospital/HospitalForgetPassword";
+import Doctor_List from "./components/Hospital/DoctorList";
+import FindDoctor from "./components/User/FindDoctor";
+import DoctorList from "./components/User/DoctorList";
+import BookAppointment from "./components/User/BookAppointment";
+import BedAvailibility from "./components/User/BedAvailibility";
+import HospitalList from "./components/User/HospitalList";
+import BedBooking from "./components/User/BedBooking";
+import DocHospitalList from "./components/User/DocHospitalList";
 
 function App() {
   const [alert, setAlert] = useState(null);
@@ -40,11 +48,32 @@ function App() {
         <Alert alert={alert} />
         <div className="container">
           <Switch>
-            {/* <Route exact path="/">
+            <Route exact path="/">
               <Home showAlert={showAlert} />
             </Route>
             <Route exact path="/user/login">
               <Login showAlert={showAlert} />
+            </Route>
+            <Route exact path="/user/FindDoctor">
+              <FindDoctor showAlert={showAlert} />
+            </Route>
+            <Route exact path="/user/DoctorList">
+              <DoctorList showAlert={showAlert} />
+            </Route>
+            <Route exact path="/user/BookAppoinment">
+              <BookAppointment showAlert={showAlert} />
+            </Route>
+            <Route exact path="/user/BedAvailibility">
+              <BedAvailibility showAlert={showAlert} />
+            </Route>
+            <Route exact path="/user/HospitalList">
+              <HospitalList showAlert={showAlert} />
+            </Route>
+            <Route exact path="/user/BedBooking">
+              <BedBooking showAlert={showAlert} />
+            </Route>
+            <Route exact path="/user/DocHospitalList">
+              <DocHospitalList showAlert={showAlert} />
             </Route>
             <Route exact path="/user/signup">
               <Signup showAlert={showAlert} />
@@ -72,6 +101,9 @@ function App() {
               <Add_Doctor showAlert={showAlert} />
             </Route>
 
+            <Route exact path="/hospital/doctorlist">
+              <Doctor_List showAlert={showAlert} />
+            </Route>
             <Route exact path="/hospital/updateDoctor">
               <Update_Doctor showAlert={showAlert} />
             </Route>
@@ -83,7 +115,7 @@ function App() {
             </Route>
             <Route exact path="/admin/Home/PendingList">
               <PendingList showAlert={showAlert} />
-            </Route> */}
+            </Route>
             <Route exact path="/hospital/hospitalForgetPassword"></Route>
           </Switch>
         </div>

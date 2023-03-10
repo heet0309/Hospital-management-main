@@ -3,26 +3,27 @@ import { useHistory } from "react-router-dom";
 
 const Update_Doctor = (props) => {
   const [credentials, setCredentials] = useState({
-    id:"",
+    // id: "",
     name: "",
     email: "",
     contact: "",
-    speciality:"",
-    experience:"",
-    appointments:""
+    speciality: "",
+    experience: "",
+    appointments: "",
   });
   // const [selectedLicence, setSelectedLicence] = useState(null);
   let history = useHistory();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await fetch("http://localhost:5000/api/hospital/", {   //chages
+    const response = await fetch("http://localhost:5000/api/hospital/", {
+      //chages
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        id: credentials.id,
+        // id: credentials.id,
         name: credentials.name,
         email: credentials.email,
         contact: credentials.contact,
@@ -49,7 +50,7 @@ const Update_Doctor = (props) => {
     <div className="mt-3">
       <h1>Update Doctor's Details</h1>
       <form onSubmit={handleSubmit}>
-      <div className="mb-3">
+        {/* <div className="mb-3">
           <label htmlFor="id" className="form-label">
             Doctor Id
           </label>
@@ -61,8 +62,8 @@ const Update_Doctor = (props) => {
             id="id"
             name="id"
           />
-        </div>
-      <div className="mb-3">
+        </div> */}
+        <div className="mb-3">
           <label htmlFor="name" className="form-label">
             Doctor Name
           </label>
@@ -92,7 +93,7 @@ const Update_Doctor = (props) => {
             We'll never share your email with anyone else.
           </div>
         </div>
-        
+
         <div className="mb-3">
           <label htmlFor="contact" className="form-label">
             Contact
@@ -108,17 +109,17 @@ const Update_Doctor = (props) => {
         </div>
         <div className="mb-3">
           <label htmlFor="speciality" className="form-label">
-          Speciality
+            Speciality
           </label>
           <input
-            type="file"
+            type="text"
             className="form-control"
             value={credentials.licence}
             onChange={onChange}
             id="speciality"
             name="speciality"
           />
-        </div> 
+        </div>
         <div className="mb-3">
           <label htmlFor="experience" className="form-label">
             Experience

@@ -3,27 +3,28 @@ import { useHistory } from "react-router-dom";
 
 const Update_Bed = (props) => {
   const [credentials, setCredentials] = useState({
-    id:"",
+    //  id:"",
     type: "",
-    total:"",
-    available:"",
-    charges:""
+    total: "",
+    available: "",
+    charges: "",
   });
   // const [selectedLicence, setSelectedLicence] = useState(null);
   let history = useHistory();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await fetch("http://localhost:5000/api/hospital/", {   //chages
+    const response = await fetch("http://localhost:5000/api/hospital/", {
+      //chages
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
         type: credentials.type,
-        total:credentials.total,
+        total: credentials.total,
         available: credentials.available,
-        charges: credentials.charges
+        charges: credentials.charges,
       }),
     });
     const json = await response.json();
@@ -45,7 +46,7 @@ const Update_Bed = (props) => {
     <div className="mt-3">
       <h1>Add Bed Details</h1>
       <form onSubmit={handleSubmit}>
-      <div className="mb-3">
+        {/* <div className="mb-3">
           <label htmlFor="id" className="form-label">
             Bed Id
           </label>
@@ -57,8 +58,8 @@ const Update_Bed = (props) => {
             id="id"
             name="id"
           />
-        </div>
-      <div className="mb-3">
+        </div> */}
+        <div className="mb-3">
           <label htmlFor="type" className="form-label">
             Bed Type
           </label>
@@ -71,11 +72,10 @@ const Update_Bed = (props) => {
             name="type"
           />
         </div>
-        
-        
+
         <div className="mb-3">
           <label htmlFor="total" className="form-label">
-          Total
+            Total
           </label>
           <textarea
             type="number"
@@ -86,7 +86,7 @@ const Update_Bed = (props) => {
             name="total"
           />
         </div>
-        
+
         <div className="mb-3">
           <label htmlFor="available" className="form-label">
             Available
