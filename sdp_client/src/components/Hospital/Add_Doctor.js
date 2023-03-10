@@ -7,17 +7,16 @@ const Add_Doctor = (props) => {
     name: "",
     email: "",
     contact: "",
-    // speciality: "",
+    speciality: "",
     experience: "",
     appointments: "",
   });
-  // const [selectedLicence, setSelectedLicence] = useState(null);
   let history = useHistory();
 
   const handleSubmit = async (e) => {
-    // e.preventDefault();
+    e.preventDefault();
 
-    const data = addDoctor(
+    const data = await addDoctor(
       localStorage.getItem("id"),
       {
         method: "PUT",
@@ -29,14 +28,13 @@ const Add_Doctor = (props) => {
         name: credentials.name,
         email: credentials.email,
         contact: credentials.contact,
-        // speciality: credentials.speciality,
+        speciality: credentials.speciality,
         experience: credentials.experience,
         appointments: credentials.appointments,
       }
     );
 
     props.showAlert("Doctor added successfully", "success");
-    // history.push("/");
   };
 
   const onChange = (e) => {
@@ -91,19 +89,19 @@ const Add_Doctor = (props) => {
             name="contact"
           />
         </div>
-        {/* <div className="mb-3">
+        <div className="mb-3">
           <label htmlFor="speciality" className="form-label">
             Speciality
           </label>
           <input
-            type="file"
+            type="text"
             className="form-control"
-            value={credentials.licence}
+            value={credentials.speciality}
             onChange={onChange}
             id="speciality"
             name="speciality"
           />
-        </div> */}
+        </div>
         <div className="mb-3">
           <label htmlFor="experience" className="form-label">
             Experience
@@ -111,7 +109,7 @@ const Add_Doctor = (props) => {
           <input
             type="text"
             className="form-control"
-            value={credentials.password}
+            value={credentials.experience}
             onChange={onChange}
             name="experience"
             id="experience"
@@ -126,6 +124,7 @@ const Add_Doctor = (props) => {
             className="form-control"
             required
             onChange={onChange}
+            value={credentials.appointments}
             minLength={5}
             name="appointments"
             id="appointments"

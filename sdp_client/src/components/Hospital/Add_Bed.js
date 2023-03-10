@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { addBed } from "../../api/hospital";
-import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 
 const Add_Bed = (props) => {
   const [credentials, setCredentials] = useState({

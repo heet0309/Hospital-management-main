@@ -1,7 +1,21 @@
 import { Link, useLocation, useHistory } from "react-router-dom";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import user from "../../api/user";
 
 const Home = () => {
+  const [bedList, setBedList] = useState([]);
+
+  const handleBedList = async () => {
+    const { data } = await user.get(
+      `/hospital/hospitalBeds/${localStorage.getItem("id")}`
+    );
+    console.log(data);
+    setBedList(data);
+  };
+
+  useEffect(() => {
+    handleBedList();
+  }, []);
   return (
     <>
       <div>
@@ -45,80 +59,33 @@ const Home = () => {
         </Link>
       </button> */}
       </div>
-      <div className="mt-5 flex flex-row mb-5">
-        <div className="border-2 flex-row">
-          <table className="table table-striped border border-success">
-            <tbody>
-              <tr>
-                <td>Bed Type: Manual</td>
-              </tr>
-              <tr>
-                <td>Total : 53</td>
-              </tr>
-              <tr>
-                <td>Available : 32</td>
-              </tr>
-              <tr>
-                <td>Charges: 4500</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div className=" text-center">
-          <Link aria-current="page" to="/hospital/updateBed">
-            <button className=" p-2 h-25 w-25">Update Details </button>
-          </Link>
-        </div>
-      </div>
-      <div className="mt-5 flex flex-row mb-5">
-        <div className="border-2 flex-row">
-          <table className="table table-striped border border-success">
-            <tbody>
-              <tr>
-                <td>Bed Type: ICU</td>
-              </tr>
-              <tr>
-                <td>Total : 83</td>
-              </tr>
-              <tr>
-                <td>Available : 35</td>
-              </tr>
-              <tr>
-                <td>Charges: 9300</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div className=" text-center">
-          <Link aria-current="page" to="/hospital/updateBed">
-            <button className=" p-2 h-25 w-25">Update Details </button>
-          </Link>
-        </div>
-      </div>
-      <div className="mt-5 flex flex-row mb-5">
-        <div className="border-2 flex-row">
-          <table className="table table-striped border border-success">
-            <tbody>
-              <tr>
-                <td>Bed Type: Electric</td>
-              </tr>
-              <tr>
-                <td>Total : 75</td>
-              </tr>
-              <tr>
-                <td>Available : 45</td>
-              </tr>
-              <tr>
-                <td>Charges: 6700</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div className=" text-center">
-          <Link aria-current="page" to="/hospital/updateBed">
-            <button className=" p-2 h-25 w-25">Update Details </button>
-          </Link>
-        </div>
+      <div className="mt-5">
+        <h2>Bed Details</h2>
+        {bedList.map(
+          (item, index) =>
+            item.type !== null && (
+              <div
+                key={index}
+                className="border p-3 my-5 rounded "
+                style={{ backgroundColor: "#e0dbdb" }}
+              >
+                <div className="mb-3 ">
+                  <label for="patient name" className="mt-1 form-label">
+                    Bed Type: {item.type}
+                  </label>
+                  {/* <input type="name" name="name" className="h-25 form-control" /> */}
+                </div>
+                <Link
+                  to={{
+                    pathname: "/hospital/updateBed",
+                    state: { type: item.type },
+                  }}
+                >
+                  <button className="btn btn-primary">Update</button>
+                </Link>
+              </div>
+            )
+        )}
       </div>
     </>
   );

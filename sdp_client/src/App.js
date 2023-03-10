@@ -24,7 +24,6 @@ import FindDoctor from "./components/User/FindDoctor";
 import DoctorList from "./components/User/DoctorList";
 import BookAppointment from "./components/User/BookAppointment";
 import BedAvailibility from "./components/User/BedAvailibility";
-import HospitalList from "./components/User/HospitalList";
 import BedBooking from "./components/User/BedBooking";
 import DocHospitalList from "./components/User/DocHospitalList";
 
@@ -65,9 +64,6 @@ function App() {
             </Route>
             <Route exact path="/user/BedAvailibility">
               <BedAvailibility showAlert={showAlert} />
-            </Route>
-            <Route exact path="/user/HospitalList">
-              <HospitalList showAlert={showAlert} />
             </Route>
             <Route exact path="/user/BedBooking">
               <BedBooking showAlert={showAlert} />

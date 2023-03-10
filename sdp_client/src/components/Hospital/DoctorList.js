@@ -1,54 +1,74 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import user from "../../api/user";
 
 function Form() {
-  const [field1, setField1] = useState("");
-  const [field2, setField2] = useState("");
-  const [field3, setField3] = useState("");
+  const [doctorList, setDoctorList] = useState([]);
+
+  const handleDoctorList = async () => {
+    const { data } = await user.get(
+      `/hospital/hospitalDoctor/${localStorage.getItem("id")}`
+    );
+    setDoctorList(data);
+  };
 
   const handleFormSubmit = (event) => {
     event.preventDefault();
-    // Handle form submission logic here
-    console.log(`Field 1: ${field1}, Field 2: ${field2}, Field 3: ${field3}`);
   };
+
+  useEffect(() => {
+    handleDoctorList();
+  }, []);
 
   return (
     <>
-      <div className="flex flex-row mb-5">
-        <div className="border-2 flex-row">
-          <table className="table table-striped border border-success">
-            <tbody>
-              <tr>
-                <td>Name: Heet Raithatha</td>
-              </tr>
-              <tr>
-                <td>Speciality: Gynecologist, PhD, MD, MBBS</td>
-              </tr>
-              <tr>
-                <td>No. of Appointments: 10</td>
-              </tr>
-              <tr>
-                <td>Email Id : heetraithatha0309@gmail.com</td>
-              </tr>
-              <tr>
-                <td>contact : 0123456789</td>
-              </tr>
-              <tr>
-                <td>Experience: 6.9 Years</td>
-              </tr>
-              <tr>
-                <td>Charges: 69</td>
-              </tr>
-            </tbody>
-          </table>
+      {doctorList.map((item, index) => (
+        <div className="flex flex-row mb-5" key={index}>
+          <div className="border-2 flex-row">
+            <table className="table table-striped border border-success">
+              <tbody>
+                <tr>
+                  <td>Name: {item.name}</td>
+                </tr>
+                <tr>
+                  <td>Speciality: {item.speciality}</td>
+                </tr>
+                <tr>
+                  <td>Availablility: Yes/No</td>
+                </tr>
+                <tr>
+                  <td>Email: {item.email}</td>
+                </tr>
+                <tr>
+                  <td>Contact No. : {item.contact}</td>
+                </tr>
+                <tr>
+                  <td>Experience: {item.experience} Years</td>
+                </tr>
+                <tr>
+                  <td>Charges: 69</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div className=" text-center">
+            <Link
+              aria-current="page"
+              to={{
+                pathname: "/hospital/updateDoctor",
+                state: { email: item.email },
+              }}
+            >
+              <button className=" p-2 h-25 w-25">Update Doctor</button>
+            </Link>
+          </div>
         </div>
-
-        <div className=" text-center">
+      ))}
+      {/* <div className=" text-center">
           <Link aria-current="page" to="/hospital/updateDoctor">
             <button className=" p-2 h-25 w-25">Update Doctor </button>
           </Link>
-        </div>
-      </div>
+        </div> */}
     </>
   );
 }

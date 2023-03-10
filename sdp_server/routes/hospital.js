@@ -160,26 +160,6 @@ router.put("/updateStatus/:id", async (req, res) => {
   }
 });
 
-router.delete("/deleteHospital/:id", async (req, res) => {
-  try {
-    const prmId = req.params.id;
-    if (!isValidObjectId(prmId))
-      return res.status(401).json({ error: "Invalid Request" });
-
-    let hospital = await Hospital.findById(prmId);
-
-    if (!hospital) {
-      return res.status(404).send("Hospital Not Found!");
-    }
-
-    hospital = await Hospital.findByIdAndDelete(prmId);
-    res.json({ Success: "Hospital has been deleted", hospital: hospital });
-  } catch (error) {
-    console.error(error.message);
-    res.status(500).send("Internal server error");
-  }
-});
-
 //add hospitals
 router.put("/addHospitals", async (req, res) => {
   try {
@@ -215,23 +195,7 @@ router.delete("/deleteHospital/:id", async (req, res) => {
     return res.status(404).send("Member not found");
   }
 });
-//get all hospital
-router.get("/findAllHospitalDetails", async (req, res) => {
-  try {
-    // const prmId = req.params.id;
-    // if (!isValidObjectId(prmId)) {
-    //   return res.status(401).json({ error: "Invalid Request" });
-    // }
-    let data = await Hospital.find({});
-    if (!data) {
-      return res.status(404).send("No Hospitals are not found");
-    }
-    res.json({ data: data });
-  } catch (error) {
-    console.error(error.message);
-    res.status(500).send("Internal Server Error");
-  }
-});
+
 //get hospitals
 router.get("/findHospitalDetails/:id", async (req, res) => {
   try {
@@ -278,19 +242,7 @@ router.put("/addBed/:id", async (req, res) => {
     res.status(500).send("Internal server Error\n" + error.message);
   }
 });
-//get all bed
-router.get("/findAllBedDetails", async (req, res) => {
-  try {
-    let data = await Hospital.find({});
-    if (!data) {
-      return res.status(404).send("Hospital not found");
-    }
-    res.json({ data: data });
-  } catch (error) {
-    console.error(error.message);
-    res.status(500).send("Internal Server Error");
-  }
-});
+
 //get bed
 router.get("/findBedDetails/:id", async (req, res) => {
   try {
@@ -369,6 +321,104 @@ router.post("/forgetPassword", async (req, res) => {
     console.error(error.message);
     return res.status(500).send("Internal Server Error\n" + error.message);
   }
+});
+
+// get hospital by city
+router.get("/getHospitalByCity", async (req, res) => {
+  const { city } = req.query;
+  let hospital = await Hospital.find({
+    $and: [{ city: { $eq: city } }],
+  });
+
+  if (!hospital) {
+    return res.json({ success: false, msg: "Hopital not found!" });
+  }
+
+  return res.json(hospital);
+});
+
+// get hospital beds
+router.get("/hospitalBeds", async (req, res) => {
+  const { city, type } = req.query;
+
+  const hospital = await Hospital.find({ $and: [{ city: { $eq: city } }] });
+
+  let bedsArr = new Array();
+
+  hospital.map((item) => {
+    item.bedDetails.map((bed) => {
+      if (bed.type === type) {
+        bedsArr.push(bed);
+      }
+    });
+  });
+
+  res.json(bedsArr);
+});
+
+router.get("/hospitalBeds/:id", async (req, res) => {
+  const { id } = req.params;
+
+  const beds = await Hospital.findById(id);
+
+  return res.json(beds.bedDetails);
+});
+
+router.get("/hospitalDoctor/:id", async (req, res) => {
+  const { id } = req.params;
+
+  const doctors = await Hospital.findById(id);
+
+  res.json(doctors.doctorDetails);
+});
+
+router.post("/bookAppoinment/:id", async (req, res) => {
+  const { id } = req.params;
+  const { patientName, age, date, timeSlot } = req.body;
+
+  const data = await Hospital.findOneAndUpdate(
+    { _id: id },
+    {
+      $push: {
+        appoinment: { patientName, age, date, timeSlot },
+      },
+    },
+    { new: true }
+  );
+
+  res.json({ success: true });
+});
+
+router.put("/updateBedDetails", async (req, res) => {
+  const { hospitalId, bedDetails } = req.body;
+
+  const hospital = await Hospital.findById(hospitalId);
+
+  hospital.bedDetails.map((item, index) => {
+    if (item.type === bedDetails.type) {
+      hospital.bedDetails[index] = bedDetails;
+    }
+  });
+
+  await hospital.save();
+
+  res.json({ success: true });
+});
+
+router.put("/updateDoctorDetails", async (req, res) => {
+  const { hospitalId, doctorDetails } = req.body;
+
+  const hospital = await Hospital.findById(hospitalId);
+
+  hospital.doctorDetails.map((item, index) => {
+    if (item.email === doctorDetails.email) {
+      hospital.doctorDetails[index] = doctorDetails;
+    }
+  });
+
+  await hospital.save();
+
+  res.json({ success: true });
 });
 
 module.exports = router;

@@ -1,64 +1,36 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
+import user from "../../api/user";
 
-const Update_Bed = (props) => {
-  const [credentials, setCredentials] = useState({
-    //  id:"",
+const Update_Bed = ({}) => {
+  const [bedDetails, setBedDetails] = useState({
     type: "",
     total: "",
     available: "",
     charges: "",
   });
-  // const [selectedLicence, setSelectedLicence] = useState(null);
   let history = useHistory();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await fetch("http://localhost:5000/api/hospital/", {
-      //chages
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        type: credentials.type,
-        total: credentials.total,
-        available: credentials.available,
-        charges: credentials.charges,
-      }),
-    });
-    const json = await response.json();
 
-    if (json.success) {
-      localStorage.setItem("token", json.authToken);
-      props.showAlert("Account Created successfully", "success");
-      history.push("/");
-    } else {
-      props.showAlert("Invalid Details", "danger");
+    const { data } = await user.put("/hospital/updateBedDetails", {
+      bedDetails,
+      hospitalId: localStorage.getItem("id"),
+    });
+    if (data?.success) {
+      alert("Bed Updated Successfully!");
     }
   };
 
   const onChange = (e) => {
-    setCredentials({ ...credentials, [e.target.name]: e.target.value });
+    setBedDetails({ ...bedDetails, [e.target.name]: e.target.value });
   };
 
   return (
     <div className="mt-3">
-      <h1>Add Bed Details</h1>
+      <h1>Update Bed Details</h1>
       <form onSubmit={handleSubmit}>
-        {/* <div className="mb-3">
-          <label htmlFor="id" className="form-label">
-            Bed Id
-          </label>
-          <textarea
-            type="number"
-            className="form-control"
-            value={credentials.address}
-            onChange={onChange}
-            id="id"
-            name="id"
-          />
-        </div> */}
         <div className="mb-3">
           <label htmlFor="type" className="form-label">
             Bed Type
@@ -66,7 +38,7 @@ const Update_Bed = (props) => {
           <input
             type="text"
             className="form-control"
-            value={credentials.name}
+            value={bedDetails.name}
             onChange={onChange}
             id="type"
             name="type"
@@ -80,7 +52,7 @@ const Update_Bed = (props) => {
           <textarea
             type="number"
             className="form-control"
-            value={credentials.address}
+            value={bedDetails.address}
             onChange={onChange}
             id="total"
             name="total"
@@ -94,7 +66,7 @@ const Update_Bed = (props) => {
           <input
             type="text"
             className="form-control"
-            value={credentials.password}
+            value={bedDetails.password}
             onChange={onChange}
             name="available"
             id="available"
@@ -114,9 +86,7 @@ const Update_Bed = (props) => {
             id="charges"
           />
         </div>
-        <button type="submit" className="btn btn-primary">
-          Submit
-        </button>
+        <button className="btn btn-primary">Update</button>
       </form>
     </div>
   );

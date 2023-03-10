@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
+import user from "../../api/user";
 
 const Update_Doctor = (props) => {
-  const [credentials, setCredentials] = useState({
-    // id: "",
+  const [doctorDetails, setDoctorDetails] = useState({
     name: "",
     email: "",
     contact: "",
@@ -11,58 +11,28 @@ const Update_Doctor = (props) => {
     experience: "",
     appointments: "",
   });
-  // const [selectedLicence, setSelectedLicence] = useState(null);
   let history = useHistory();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await fetch("http://localhost:5000/api/hospital/", {
-      //chages
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        // id: credentials.id,
-        name: credentials.name,
-        email: credentials.email,
-        contact: credentials.contact,
-        speciality: credentials.speciality,
-        experience: credentials.experience,
-      }),
-    });
-    const json = await response.json();
 
-    if (json.success) {
-      localStorage.setItem("token", json.authToken);
-      props.showAlert("Account Created successfully", "success");
-      history.push("/");
-    } else {
-      props.showAlert("Invalid Details", "danger");
+    const { data } = await user.put("/hospital/updateDoctorDetails", {
+      doctorDetails,
+      hospitalId: localStorage.getItem("id"),
+    });
+    if (data?.success) {
+      alert("Doctor Details updated successfully!");
     }
   };
 
   const onChange = (e) => {
-    setCredentials({ ...credentials, [e.target.name]: e.target.value });
+    setDoctorDetails({ ...doctorDetails, [e.target.name]: e.target.value });
   };
 
   return (
     <div className="mt-3">
       <h1>Update Doctor's Details</h1>
-      <form onSubmit={handleSubmit}>
-        {/* <div className="mb-3">
-          <label htmlFor="id" className="form-label">
-            Doctor Id
-          </label>
-          <textarea
-            type="number"
-            className="form-control"
-            value={credentials.address}
-            onChange={onChange}
-            id="id"
-            name="id"
-          />
-        </div> */}
+      <form>
         <div className="mb-3">
           <label htmlFor="name" className="form-label">
             Doctor Name
@@ -70,7 +40,7 @@ const Update_Doctor = (props) => {
           <input
             type="text"
             className="form-control"
-            value={credentials.name}
+            value={doctorDetails.name}
             onChange={onChange}
             id="name"
             name="name"
@@ -83,7 +53,7 @@ const Update_Doctor = (props) => {
           <input
             type="email"
             className="form-control"
-            value={credentials.email}
+            value={doctorDetails.email}
             onChange={onChange}
             id="email"
             name="email"
@@ -101,7 +71,7 @@ const Update_Doctor = (props) => {
           <textarea
             type="number"
             className="form-control"
-            value={credentials.address}
+            value={doctorDetails.address}
             onChange={onChange}
             id="contact"
             name="contact"
@@ -114,7 +84,7 @@ const Update_Doctor = (props) => {
           <input
             type="text"
             className="form-control"
-            value={credentials.licence}
+            value={doctorDetails.licence}
             onChange={onChange}
             id="speciality"
             name="speciality"
@@ -127,7 +97,7 @@ const Update_Doctor = (props) => {
           <input
             type="text"
             className="form-control"
-            value={credentials.password}
+            value={doctorDetails.password}
             onChange={onChange}
             name="experience"
             id="experience"
@@ -147,7 +117,7 @@ const Update_Doctor = (props) => {
             id="appointment"
           />
         </div>
-        <button type="submit" className="btn btn-primary">
+        <button onClick={handleSubmit} className="btn btn-primary">
           Submit
         </button>
       </form>

@@ -24,6 +24,10 @@ const HospitalSchema = new Schema({
     type: String,
     trim: true,
   },
+  city: {
+    type: String,
+    trim: true,
+  },
   doctorDetails: {
     type: [Object],
   },
@@ -41,6 +45,16 @@ const HospitalSchema = new Schema({
   date: {
     type: Date,
     default: Date.now,
+  },
+  appoinment: {
+    type: [
+      mongoose.Schema({
+        patientName: String,
+        age: Number,
+        date: String,
+        timeSlot: String,
+      }),
+    ],
   },
 });
 const Hospital = mongoose.model("hospital", HospitalSchema);
