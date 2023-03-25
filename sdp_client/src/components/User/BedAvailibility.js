@@ -5,8 +5,8 @@ import user from "../../api/user";
 const BedAvailibility = () => {
   const [query, setQuery] = useState("");
   const [type, setType] = useState("");
-  const [bedList, setBedList] = useState([]);
-
+  const [hospitalData, setHospitalData] = useState([]);
+  const [bedTypeList, setBedTypeList] = useState([]);
   const handleChange = async (e) => {
     setQuery(e.target.value);
   };
@@ -15,8 +15,17 @@ const BedAvailibility = () => {
     const { data } = await user.get(
       `/hospital/hospitalBeds?city=${query}&type=${type}`
     );
-    setBedList(data);
+    setHospitalData(data);
   };
+
+  const handleBedTypes = async () => {
+    const { data } = await user.get(`/hospital/hospitalBedType`);
+    setBedTypeList(data);
+  };
+
+  useEffect(() => {
+    handleBedTypes();
+  }, []);
   return (
     <>
       <div className=" d-flex ">
@@ -38,9 +47,12 @@ const BedAvailibility = () => {
               setType(e.target.value);
             }}
           >
-            <option value="Manual Bed">Manual Bed</option>
-            <option value="ICU">ICU</option>
-            <option value="Electric Bed">Electric Bed</option>
+            {bedTypeList.map !== undefined &&
+              bedTypeList.map((item, idx) => (
+                <option key={idx} value={item}>
+                  {item}
+                </option>
+              ))}
           </select>
         </div>
         <button
@@ -55,38 +67,37 @@ const BedAvailibility = () => {
       </div>
       <div className="mt-5">
         <h2>Bed Details</h2>
-        {bedList.map(
-          (item, index) =>
-            item.type !== null && (
-              <div
-                key={index}
-                className="border p-3 my-5 rounded "
-                style={{ backgroundColor: "#e0dbdb" }}
+        {hospitalData.map((item, index) => (
+          <div className="flex flex-row mb-5" key={index}>
+            <div className="border-2 flex-row">
+              <table className="table table-striped border border-success">
+                <tbody>
+                  <tr>
+                    <td>Hospital Name: {item.name}</td>
+                  </tr>
+                  <tr>
+                    <td>Address: {item.address}</td>
+                  </tr>
+                  <tr>
+                    <td>Availablility: Yes/No</td>
+                  </tr>
+                  {/* <tr>
+                    <td>Bed Charges: 5700</td>
+                  </tr> */}
+                </tbody>
+              </table>
+            </div>
+            {console.log(item._id)}
+            <div className=" text-center">
+              <Link
+                aria-current="page"
+                to={{ pathname: "/user/DoctorList", state: { id: item._id } }}
               >
-                <div className="mb-3 ">
-                  <label for="patient name" className="mt-1 form-label">
-                    Bed Type: {item.type}
-                  </label>
-                  {/* <input type="name" name="name" className="h-25 form-control" /> */}
-                </div>
-                <div className="mb-3">
-                  <label for="Age" className="form-label">
-                    No of days:
-                  </label>
-                  <input type="Number" className="h-25 form-control" id="age" />
-                </div>
-                <div className="mb-3 d-flex flex-row">
-                  <label for="Number" className="form-label">
-                    Total Cost:
-                  </label>
-                  <div className="mx-2">{item.charges}</div>
-                </div>
-                <button type="submit" className="btn btn-primary">
-                  Payment
-                </button>
-              </div>
-            )
-        )}
+                <button className=" p-2 h-25 w-25">Book Doctor</button>
+              </Link>
+            </div>
+          </div>
+        ))}
       </div>
     </>
   );

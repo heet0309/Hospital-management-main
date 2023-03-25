@@ -323,9 +323,9 @@ router.post("/forgetPassword", async (req, res) => {
   }
 });
 
-// get hospital by city
+// get hospital by city & speciality
 router.get("/getHospitalByCity", async (req, res) => {
-  const { city } = req.query;
+  const { city, speciality } = req.query;
   let hospital = await Hospital.find({
     $and: [{ city: { $eq: city } }],
   });
@@ -334,7 +334,17 @@ router.get("/getHospitalByCity", async (req, res) => {
     return res.json({ success: false, msg: "Hopital not found!" });
   }
 
-  return res.json(hospital);
+  let hospitalArr = new Array();
+
+  hospital.map((item) => {
+    item.doctorDetails.map((doctor) => {
+      if (doctor.speciality === speciality) {
+        hospitalArr.push(item);
+      }
+    });
+  });
+
+  return res.json(hospitalArr);
 });
 
 // get hospital beds
@@ -343,17 +353,51 @@ router.get("/hospitalBeds", async (req, res) => {
 
   const hospital = await Hospital.find({ $and: [{ city: { $eq: city } }] });
 
-  let bedsArr = new Array();
+  let hospitalArr = new Array();
 
   hospital.map((item) => {
     item.bedDetails.map((bed) => {
       if (bed.type === type) {
-        bedsArr.push(bed);
+        hospitalArr.push(item);
       }
     });
   });
 
-  res.json(bedsArr);
+  res.json(hospitalArr);
+});
+
+// get all bed types
+router.get("/hospitalBedType", async (req, res) => {
+  let bedTypeArr = new Array();
+
+  const hospital = await Hospital.find({});
+
+  hospital.map((item) => {
+    item.bedDetails.map((bed) => {
+      if (bed?.type !== null) {
+        bedTypeArr.push(bed.type);
+      }
+    });
+  });
+
+  res.json(bedTypeArr);
+});
+
+// get all doctor speciality
+router.get("/hospitalDoctorSpeciality", async (req, res) => {
+  let specialityArr = new Array();
+
+  const hospital = await Hospital.find({});
+
+  hospital.map((item) => {
+    item.doctorDetails.map((doctor) => {
+      if (doctor?.speciality !== null) {
+        specialityArr.push(doctor.speciality);
+      }
+    });
+  });
+
+  res.json(specialityArr);
 });
 
 router.get("/hospitalBeds/:id", async (req, res) => {

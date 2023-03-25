@@ -5,9 +5,12 @@ import user from "../../api/user";
 const FindDoctor = () => {
   const [query, setQuery] = useState("");
   const [hospitalData, setHospitalData] = useState([]);
+  const [speciality, setSpeciality] = useState("Gynecologist");
+  const [specialityList, setSpecialityList] = useState([]);
+
   const handleSearch = async () => {
     const { data } = await user.get(
-      `/hospital/getHospitalByCity?city=${query}`
+      `/hospital/getHospitalByCity?city=${query}&speciality=${speciality}`
     );
     setHospitalData(data);
   };
@@ -15,6 +18,15 @@ const FindDoctor = () => {
   const handleChange = async (e) => {
     setQuery(e.target.value);
   };
+
+  const handleSpeciality = async () => {
+    const { data } = await user.get(`/hospital/hospitalDoctorSpeciality`);
+    setSpecialityList(data);
+  };
+
+  useEffect(() => {
+    handleSpeciality();
+  }, []);
 
   useEffect(() => {}, [query]);
 
@@ -30,14 +42,18 @@ const FindDoctor = () => {
             onChange={handleChange}
           />
         </div>
-        {/* <div className="dropdown col ">
-          <select className="p-2 rounded">
-            <option>Speciality</option>
-            <option>Gynecologist</option>
-            <option>Neurologist</option>
-            <option>Dentist</option>
+        <div className="dropdown col ">
+          <select
+            onChange={(e) => setSpeciality(e.target.value)}
+            className="p-2 rounded"
+          >
+            <option>Select Speciality</option>
+            {specialityList.map !== undefined &&
+              specialityList.map((item) => (
+                <option value={item}>{item}</option>
+              ))}
           </select>
-        </div> */}
+        </div>
         <button className="btn btn-primary rounded" onClick={handleSearch}>
           Search
         </button>
@@ -65,6 +81,7 @@ const FindDoctor = () => {
                 </tbody>
               </table>
             </div>
+            {console.log(item)}
             <div className=" text-center">
               <Link
                 aria-current="page"
