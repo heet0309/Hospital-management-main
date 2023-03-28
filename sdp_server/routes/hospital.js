@@ -7,6 +7,7 @@ const jwt = require("jsonwebtoken");
 var fetchuser = require("../middleware/fetchuser");
 const Hospital = require("../models/Hospital");
 const { isValidObjectId } = require("mongoose");
+const sendMail = require("../nodemailer");
 // jet secret key
 const JWT_SECRET = "harshilprajapati9192@gmail.com";
 
@@ -418,7 +419,7 @@ router.get("/hospitalDoctor/:id", async (req, res) => {
 
 router.post("/bookAppoinment/:id", async (req, res) => {
   const { id } = req.params;
-  const { patientName, age, date, timeSlot } = req.body;
+  const { patientName, age, date, timeSlot, emailAddress } = req.body;
 
   const data = await Hospital.findOneAndUpdate(
     { _id: id },
@@ -428,6 +429,43 @@ router.post("/bookAppoinment/:id", async (req, res) => {
       },
     },
     { new: true }
+  );
+
+  sendMail(
+    emailAddress,
+    "Appointment Booking",
+    "Your appointment is booked succesfully.  Details:-  Date: " +
+      date +
+      " Time Slot:" +
+      timeSlot
+  );
+
+  res.json({ success: true });
+});
+
+router.post("/bedBookData/:id", async (req, res) => {
+  const { id } = req.params;
+  const { bedType, days, cost, emailAddress } = req.body;
+
+  const data = await Hospital.findOneAndUpdate(
+    { _id: id },
+    {
+      $push: {
+        bedBookData: { bedType, days, cost },
+      },
+    },
+    { new: true }
+  );
+
+  sendMail(
+    emailAddress,
+    "Bed Booking",
+    "Your Bed is booked succesfully.  Details:-  Bed Type: " +
+      bedType +
+      " Days: " +
+      days +
+      " Total Cost: " +
+      cost
   );
 
   res.json({ success: true });

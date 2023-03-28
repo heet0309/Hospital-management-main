@@ -56,6 +56,15 @@ const HospitalSchema = new Schema({
       }),
     ],
   },
+  bedBookData: {
+    type: [
+      mongoose.Schema({
+        bedType: String,
+        days: Number,
+        cost: Number,
+      }),
+    ],
+  },
 });
 const Hospital = mongoose.model("hospital", HospitalSchema);
 module.exports = Hospital;
