@@ -26,6 +26,8 @@ import BookAppointment from "./components/User/BookAppointment";
 import BedAvailibility from "./components/User/BedAvailibility";
 import BedBooking from "./components/User/BedBooking";
 import DocHospitalList from "./components/User/DocHospitalList";
+import DoctorAppointmentList from "./components/Hospital/DoctorAppointmentList";
+import BedBookedList from "./components/Hospital/BedBookedList";
 
 function App() {
   const [alert, setAlert] = useState(null);
@@ -99,6 +101,12 @@ function App() {
 
             <Route exact path="/hospital/doctorlist">
               <Doctor_List showAlert={showAlert} />
+            </Route>
+            <Route exact path="/hospital/BedBookedList">
+              <BedBookedList showAlert={showAlert} />
+            </Route>
+            <Route exact path="/hospital/DoctorAppointmentList">
+              <DoctorAppointmentList showAlert={showAlert} />
             </Route>
             <Route exact path="/hospital/updateDoctor">
               <Update_Doctor showAlert={showAlert} />

@@ -9,7 +9,6 @@ const Home = () => {
     const { data } = await user.get(
       `/hospital/hospitalBeds/${localStorage.getItem("id")}`
     );
-    console.log(data);
     setBedList(data);
   };
 
@@ -50,6 +49,29 @@ const Home = () => {
             </label>
           </Link>
         </button>
+        <button type="button" class="btn btn-success me-3">
+          <Link
+            className={`  `}
+            aria-current="page"
+            to="/hospital/DoctorAppointmentList"
+          >
+            <label className="text-decoration-none" style={{ color: "black" }}>
+              Doctor Appointment List
+            </label>
+          </Link>
+        </button>
+
+        <button type="button" class="btn btn-success me-3">
+          <Link
+            className={`  `}
+            aria-current="page"
+            to="/hospital/BedBookedList"
+          >
+            <label className="text-decoration-none" style={{ color: "black" }}>
+              Bed Booked List
+            </label>
+          </Link>
+        </button>
         {/* 
       <button type="button" class="btn btn-success me-3">
         <Link className={`  `} aria-current="page" to="/hospital/updateDoctor">
@@ -73,7 +95,21 @@ const Home = () => {
                   <label for="patient name" className="mt-1 form-label">
                     Bed Type: {item.type}
                   </label>
-                  {/* <input type="name" name="name" className="h-25 form-control" /> */}
+                </div>
+                <div className="mb-3 ">
+                  <label for="patient name" className="mt-1 form-label">
+                    Total: {item.total}
+                  </label>
+                </div>
+                <div className="mb-3 ">
+                  <label for="patient name" className="mt-1 form-label">
+                    Available: {item.available}
+                  </label>
+                </div>
+                <div className="mb-3 ">
+                  <label for="patient name" className="mt-1 form-label">
+                    Charges: {item.charges}
+                  </label>
                 </div>
                 <Link
                   to={{

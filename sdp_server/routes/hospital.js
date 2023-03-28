@@ -457,6 +457,16 @@ router.post("/bedBookData/:id", async (req, res) => {
     { new: true }
   );
 
+  const hospital = await Hospital.findById(id);
+
+  hospital.bedDetails.map((item, index) => {
+    if (item.type === bedType) {
+      hospital.bedDetails[index].available -= 1;
+    }
+  });
+
+  await hospital.save();
+
   sendMail(
     emailAddress,
     "Bed Booking",
@@ -485,6 +495,22 @@ router.put("/updateBedDetails", async (req, res) => {
   await hospital.save();
 
   res.json({ success: true });
+});
+
+router.get("/getAppointments/:hospitalId", async (req, res) => {
+  const { hospitalId } = req.params;
+
+  const hospital = await Hospital.findById(hospitalId);
+
+  res.json({ success: true, data: hospital.appoinment });
+});
+
+router.get("/getBookedBed/:hospitalId", async (req, res) => {
+  const { hospitalId } = req.params;
+
+  const hospital = await Hospital.findById(hospitalId);
+
+  res.json({ success: true, data: hospital.bedBookData });
 });
 
 router.put("/updateDoctorDetails", async (req, res) => {
