@@ -79,21 +79,23 @@ const BedAvailibility = () => {
                     <td>Address: {item.address}</td>
                   </tr>
                   <tr>
-                    <td>Availablility: Yes/No</td>
+                    <td>Availablility: Yes</td>
                   </tr>
-                  {/* <tr>
-                    <td>Bed Charges: 5700</td>
-                  </tr> */}
+                  <tr>
+                    <td>Bed Charges: 1500</td>
+                  </tr>
                 </tbody>
               </table>
             </div>
-            {console.log(item._id)}
             <div className=" text-center">
               <Link
                 aria-current="page"
-                to={{ pathname: "/user/DoctorList", state: { id: item._id } }}
+                to={{
+                  pathname: "/user/BedBooking",
+                  state: { id: item._id, type: type },
+                }}
               >
-                <button className=" p-2 h-25 w-25">Book Doctor</button>
+                <button className=" p-2 h-25 w-25">Book Bed</button>
               </Link>
             </div>
           </div>

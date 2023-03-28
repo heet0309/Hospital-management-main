@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import user from "../../api/user";
-
 const timeSlots = [
   "09:00 To 10:00 AM",
   "10:00 To 11:00 AM",
@@ -12,6 +11,21 @@ const timeSlots = [
   "04:00 To 05:00 PM",
   "05:00 To 06:00 PM",
 ];
+
+function loadScript(src) {
+  return new Promise((resolve) => {
+    const script = document.createElement("script");
+    script.src = src;
+    script.onload = () => {
+      resolve(true);
+    };
+    script.onerror = () => {
+      resolve(false);
+    };
+    document.body.appendChild(script);
+  });
+}
+
 const BookAppointment = () => {
   const [id, setId] = useState("");
 
@@ -20,6 +34,7 @@ const BookAppointment = () => {
     age: "",
     date: "",
     timeSlot: "",
+    emailAddress: localStorage.getItem("email"),
   });
 
   const location = useLocation();
@@ -32,16 +47,45 @@ const BookAppointment = () => {
     });
   };
 
+  const displayRazorpay = async () => {
+    const res = await loadScript(
+      "https://checkout.razorpay.com/v1/checkout.js"
+    );
+    if (!res) {
+      alert("Unable to load Payment gateway. Are you online?");
+      return;
+    }
+
+    const options = {
+      key: "rzp_test_giq1IMMWeasz25", // Enter the Key ID generated from the Dashboard
+      amount: "150000",
+      currency: "INR",
+      name: "Alyf",
+      description: "Proceed To Payment",
+      image:
+        "https://d2gg9evh47fn9z.cloudfront.net/800px_COLOURBOX35633090.jpg",
+      handler: async function (response) {
+        const { data } = await user.post(
+          `/hospital/bookAppoinment/${id}`,
+          appointmendData
+        );
+        if (data?.success) {
+          alert("Appointent Successfully!");
+        }
+      },
+
+      theme: {
+        color: "teal",
+      },
+    };
+
+    const paymentObject = new window.Razorpay(options);
+    paymentObject.open();
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { data } = await user.post(
-      `/hospital/bookAppoinment/${id}`,
-      appointmendData
-    );
-    console.log(data);
-    if (data?.success) {
-      alert("Appointent Successfully!");
-    }
+    displayRazorpay();
   };
 
   useEffect(() => {
@@ -106,7 +150,7 @@ const BookAppointment = () => {
           </select>
         </div>
         <button onClick={handleSubmit} className="btn btn-primary">
-          Submit
+          Payment
         </button>
       </form>
     </>

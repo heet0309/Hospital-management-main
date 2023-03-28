@@ -16,6 +16,7 @@ const Login = (props) => {
       if (data.data.isAdmin === true) {
         history.push("/admin/Home");
       } else {
+        localStorage.setItem("email", credentials.email);
         history.push("/");
       }
     }
