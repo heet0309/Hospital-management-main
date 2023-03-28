@@ -46,74 +46,65 @@ const Signup = (props) => {
   };
 
   return (
-<>
-    
-    <div className="container1">
-
-      <div className="slider1">
-        <div className="btn1">
-
-          <button className="signup1">Signup Form</button>
-        </div>
-        <div className="form-section1">
-
-          <div className="signup-box1">
-            <input
-              type="text"
-              className="name1 ele1"
-              placeholder="Enter your name"
-
-              onchange={onChange}
-              id="name"
-              name="name"
-            />
-            <input
-              type="email"
-              className="email1 ele1"
-              placeholder="youremail@email.com"
-
-              onchange={onChange}
-              id="email"
-              name="email"
-            />
-            <input
-              type="text"
-              className="name1 ele1"
-
-              placeholder="Enter your number"
-              onchange={onChange}
-              id="mobileNo"
-              name="mobileNo"
-            />
-            <input
-              type="password"
-              className="password1 ele1"
-              placeholder="password"
-
-              onchange={onChange}
-              name="password"
-              required=""
-              minLength={5}
-              id="password"
-            />
-            <input
-              type="password"
-              className="password1 ele1"
-              placeholder="Confirm password"
-              required
-              onchange={onChange}
-              minLength={5}
-              name="cpassword"
-              id="cpassword"
-            />
-            <button type="submit" className="clkbtn1">
-              Signup
-            </button>
+    <>
+      <div className="container1">
+        <div className="slider1">
+          <div className="btn1">
+            <button className="signup1">Signup Form</button>
+          </div>
+          <div className="form-section1">
+            <div className="signup-box1">
+              <input
+                type="text"
+                className="name1 ele1"
+                placeholder="Enter your name"
+                onChange={onChange}
+                id="name"
+                name="name"
+              />
+              <input
+                type="email"
+                className="email1 ele1"
+                placeholder="youremail@email.com"
+                onChange={onChange}
+                id="email"
+                name="email"
+              />
+              <input
+                type="text"
+                className="name1 ele1"
+                placeholder="Enter your number"
+                onChange={onChange}
+                id="mobileNo"
+                name="mobileNo"
+              />
+              <input
+                type="password"
+                className="password1 ele1"
+                placeholder="password"
+                onChange={onChange}
+                name="password"
+                required=""
+                minLength={5}
+                id="password"
+              />
+              <input
+                type="password"
+                className="password1 ele1"
+                placeholder="Confirm password"
+                required
+                onChange={onChange}
+                minLength={5}
+                name="cpassword"
+                id="cpassword"
+              />
+              <button onClick={handleSubmit} className="clkbtn1">
+                Signup
+              </button>
+            </div>
           </div>
         </div>
       </div>
-
-    </div>
     </>
   );
 };

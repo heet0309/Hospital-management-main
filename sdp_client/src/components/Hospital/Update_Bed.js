@@ -1,16 +1,17 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import user from "../../api/user";
 
-const Update_Bed = ({}) => {
+const Update_Bed = () => {
+  const location = useLocation();
+
+  const { type } = location.state;
   const [bedDetails, setBedDetails] = useState({
-    type: "",
+    type: type,
     total: "",
     available: "",
     charges: "",
   });
-  let history = useHistory();
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -38,7 +39,7 @@ const Update_Bed = ({}) => {
           <input
             type="text"
             className="form-control"
-            value={bedDetails.name}
+            value={bedDetails.type}
             onChange={onChange}
             id="type"
             name="type"
