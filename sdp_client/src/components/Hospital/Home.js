@@ -1,7 +1,7 @@
 import { Link, useLocation, useHistory } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import user from "../../api/user";
-
+import "./Login.css";
 const Home = () => {
   const [bedList, setBedList] = useState([]);
 
@@ -18,13 +18,13 @@ const Home = () => {
   return (
     <>
       <div>
-        <button type="button" class="btn btn-success me-3">
+        
           <Link className={`  `} aria-current="page" to="/hospital/addBed">
-            <label className="text-decoration-none" style={{ color: "black" }}>
-              Add Bed
-            </label>
+            
+          <button className=" custom-btn btn-7">Add Bed</button>
+           
           </Link>
-        </button>
+        
 
         {/* <button type="button" class="btn btn-success me-3">
         <Link className={`  `} aria-current="page" to="/hospital/updateBed">
@@ -34,42 +34,41 @@ const Home = () => {
         </Link>
       </button> */}
 
-        <button type="button" class="btn btn-success me-3">
+        
           <Link className={`  `} aria-current="page" to="/hospital/addDoctor">
-            <label className="text-decoration-none" style={{ color: "black" }}>
-              Add Doctor
-            </label>
+          <button className=" custom-btn btn-7">Add Doctor</button>
+              
+           
           </Link>
-        </button>
+       
 
-        <button type="button" class="btn btn-success me-3">
+        
           <Link className={`  `} aria-current="page" to="/hospital/DoctorList">
-            <label className="text-decoration-none" style={{ color: "black" }}>
-              DoctorList
-            </label>
+          <button className=" custom-btn btn-7">DoctorList</button>
+             
+            
           </Link>
-        </button>
-        <button type="button" class="btn btn-success me-3">
+        
+        
           <Link
             className={`  `}
             aria-current="page"
             to="/hospital/DoctorAppointmentList"
           >
-            <label className="text-decoration-none" style={{ color: "black" }}>
-              Doctor Appointment List
-            </label>
+            <button className=" custom-btn btn-7">Appointments</button>
+              
           </Link>
-        </button>
+        
 
-        <button type="button" class="btn btn-success me-3">
+        <button type="button" class="custom-btn btn-7">
           <Link
             className={`  `}
             aria-current="page"
             to="/hospital/BedBookedList"
           >
-            <label className="text-decoration-none" style={{ color: "black" }}>
-              Bed Booked List
-            </label>
+           <button className=" custom-btn btn-7">Bed Booked List</button>
+              
+            
           </Link>
         </button>
         {/* 

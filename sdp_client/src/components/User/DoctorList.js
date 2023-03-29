@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
 import user from "../../api/user";
+import "./FindDoctorcss.css";
 
 const DoctorList = () => {
   const [hospitalId, setHospitalId] = useState("");
@@ -24,10 +25,13 @@ const DoctorList = () => {
   }, [hospitalId]);
   return (
     <>
+      <h1> List of Available Doctors</h1>
       {doctorList.map((item, index) => (
-        <div className="flex flex-row mb-5" key={index}>
-          <div className="border-2 flex-row">
-            <table className="table table-striped border border-success">
+        
+          
+        <div className="d-flex justify-content-between mb-5" key={index}>
+          <div className="border border-success p-3">
+            <table className="table table-striped">
               <tbody>
                 <tr>
                   <td>Name: {item.name}</td>
@@ -42,12 +46,12 @@ const DoctorList = () => {
                   <td>Experience: {item.experience} Years</td>
                 </tr>
                 <tr>
-                  <td>Charges: 69</td>
+                  <td>Charges: 100</td>
                 </tr>
               </tbody>
             </table>
           </div>
-          <div className=" text-center">
+          <div className=" text-center m-lg-auto">
             <Link
               aria-current="page"
                 to={{
@@ -55,10 +59,12 @@ const DoctorList = () => {
                   state: { hospitalId: hospitalId },
                 }}
             >
-              <button className=" p-2 h-25 w-25">Book Appointment</button>
+              <button className="custom-btn btn-7">Book</button>
             </Link>
           </div>
         </div>
+        
+        
       ))}
     </>
   );

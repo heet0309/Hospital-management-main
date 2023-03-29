@@ -1,5 +1,6 @@
 import React from "react";
 import { Link, useLocation, useHistory } from "react-router-dom";
+import "./Navbarcss.css";
 const Navbar = () => {
   let location = useLocation();
   let history = useHistory();
@@ -9,6 +10,8 @@ const Navbar = () => {
     history.push("/user/login");
   };
   return (
+    <>
+    <div className="bg-image"></div>
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <div className="container-fluid">
         <Link className="navbar-brand" to="/">
@@ -26,28 +29,77 @@ const Navbar = () => {
           <span className="navbar-toggler-icon"></span>
         </button>
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-            <li className="nav-item">
+          <ul className="navbar-links">
+            <li className="navbar-dropdown">
               <Link
-                className={`nav-link ${
-                  location.pathname === "/" ? "active" : ""
-                }`}
+                className={`nav-link ${location.pathname === "/" ? "active" : ""}`}
                 aria-current="page"
                 to="/"
               >
                 Home
               </Link>
             </li>
-            <li className="nav-item">
-              <Link
-                className={`nav-link ${
-                  location.pathname === "/" ? "active" : ""
-                }`}
-                aria-current="page"
-                to="/hospital/Login"
-              >
-                Hospital
-              </Link>
+
+            <li className="navbar-dropdown">
+              <a href="#">User</a>
+              <div className="dropdown">
+                {!localStorage.getItem("token") ? (
+                  <div>
+                    <Link
+                      className={`nav-link ${location.pathname === "/" ? "active" : ""
+                        }`}
+                      aria-current="page"
+                      to="/User/Login"
+                    >
+                      Login
+                    </Link>
+                    <Link
+                      className={`nav-link ${location.pathname === "/" ? "active" : ""
+                        }`}
+                      aria-current="page"
+                      to="/User/Signup"
+                    >
+                      SignUp
+                    </Link>
+                  </div>
+                ) : (
+                  <Link onClick={handleLogout} className={`nav-link ${location.pathname === "/" ? "active" : ""
+                    }`}>
+                    Logout
+                  </Link>
+                )}
+              </div>
+            </li>
+
+            <li className="navbar-dropdown">
+              <a href="#">Hospital</a>
+              <div className="dropdown">
+                {!localStorage.getItem("token") ? (
+                  <div>
+                    <Link
+                      className={`nav-link ${location.pathname === "/" ? "active" : ""
+                        }`}
+                      aria-current="page"
+                      to="/Hospital/Login"
+                    >
+                      Login
+                    </Link>
+                    <Link
+                      className={`nav-link ${location.pathname === "/" ? "active" : ""
+                        }`}
+                      aria-current="page"
+                      to="/Hospital/SignUp"
+                    >
+                      SignUp
+                    </Link>
+                  </div>
+                ) : (
+                  <Link onClick={handleLogout} className={`nav-link ${location.pathname === "/" ? "active" : ""
+                    }`}>
+                    Logout
+                  </Link>
+                )}
+              </div>
             </li>
             {/* <li className="nav-item">
               <Link
@@ -73,31 +125,11 @@ const Navbar = () => {
               </Link>
             </li> */}
           </ul>
-          {!localStorage.getItem("token") ? (
-            <div>
-              <Link
-                className="btn btn-primary mx-2"
-                to="/user/login"
-                role="button"
-              >
-                Login
-              </Link>
-              <Link
-                className="btn btn-primary mx-2"
-                to="/user/signup"
-                role="button"
-              >
-                Signup
-              </Link>
-            </div>
-          ) : (
-            <button onClick={handleLogout} className="btn btn-primary">
-              Logout
-            </button>
-          )}
+
         </div>
       </div>
     </nav>
+    </>
   );
 };
 

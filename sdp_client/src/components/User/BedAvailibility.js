@@ -28,21 +28,21 @@ const BedAvailibility = () => {
   }, []);
   return (
     <>
-      <div className=" d-flex ">
+      
         <div className="dropdown col">
           <div className="dropdown col">
             <input
               type="text"
               name="city"
               placeholder="Search City"
-              className="rounded p-2"
+              className="form-control rounded-pill p-3 w-25 m-3"
               onChange={handleChange}
             />
           </div>
         </div>
         <div className="dropdown col ">
           <select
-            className="p-2 rounded"
+            className="form-control rounded-pill p-3 w-25 m-3"
             onChange={(e) => {
               setType(e.target.value);
             }}
@@ -55,22 +55,21 @@ const BedAvailibility = () => {
               ))}
           </select>
         </div>
-        <button
-          type="button"
-          onClick={handleBedList}
-          className="btn btn-success me-3"
-        >
-          <label className="text-decoration-none" style={{ color: "black" }}>
+        <div className=" m-lg-500 w-25 m-4  ">
+          <button
+            className="custom-btn btn-7 "
+            onClick={handleBedList}
+          >
             Search
-          </label>
-        </button>
-      </div>
+          </button>
+        </div>
+      
       <div className="mt-5">
         <h2>Bed Details</h2>
         {hospitalData.map((item, index) => (
-          <div className="flex flex-row mb-5" key={index}>
-            <div className="border-2 flex-row">
-              <table className="table table-striped border border-success">
+          <div className="d-flex justify-content-between mb-5" key={index}>
+            <div className="border border-success p-3">
+              <table className="table table-striped">
                 <tbody>
                   <tr>
                     <td>Hospital Name: {item.name}</td>
@@ -87,7 +86,7 @@ const BedAvailibility = () => {
                 </tbody>
               </table>
             </div>
-            <div className=" text-center">
+            <div className=" text-center m-lg-auto">
               <Link
                 aria-current="page"
                 to={{
@@ -95,7 +94,7 @@ const BedAvailibility = () => {
                   state: { id: item._id, type: type },
                 }}
               >
-                <button className=" p-2 h-25 w-25">Book Bed</button>
+                <button className=" custom-btn btn-7">Book Bed</button>
               </Link>
             </div>
           </div>

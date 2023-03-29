@@ -106,6 +106,8 @@ const BookAppointment = () => {
               onChange={handleChange}
             />
           </div>
+          </div>
+          <div className="d-flex flex-row">
           <div className="mb-3 w-50 d-flex flex-row h-25 mx-3">
             <label for="age" className="form-label">
               Age
